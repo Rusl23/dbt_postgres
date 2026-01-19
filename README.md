@@ -37,6 +37,14 @@ dbt docs serve
 - `tests/` — пользовательские тесты
 - `seeds/` — статические данные
 - `snapshots/` — отслеживание изменений
+- `data/` — исходные CSV (orders, returns, users) и SQL для загрузки в Postgres
+
+## Загрузка данных в Postgres (опционально)
+В папке `data/` лежит файл `load_postgres.sql` с `CREATE TABLE` и `INSERT INTO` для CSV.
+Пример запуска:
+```bash
+psql -d <db> -f data/load_postgres.sql
+```
 
 ## Примечания
 Если в проекте есть специфичные модели или окружения, добавьте сюда их описание и правила запуска.
