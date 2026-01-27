@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: stg_returns
+    description: 'Returned orders and status of this return'
+    config:
+      tags: ['stg']
+    columns:
+      - name: dwh_id
+        description: 'Row number'
+        tests:
+          - not_null
+      - name: order_id
+        description: 'Unique Order ID for each Customer'
+      - name: status
+        description: 'Return status'
+      - name: etl_timestamp
+        description: 'Date of transformation'
+        tests:
+          - not_null

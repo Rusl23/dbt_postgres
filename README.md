@@ -18,6 +18,11 @@ dbt run
 dbt test
 ```
 
+Если профиль хранится в репозитории, используйте переменную окружения:
+```bash
+export DBT_PROFILES_DIR=./.dbt
+```
+
 ## Требования
 - dbt-core + dbt-snowflake (совместимые версии)
 - Доступ к Snowflake (account, user, role, warehouse, database, schema)
@@ -39,12 +44,31 @@ dbt docs serve
 - `snapshots/` — отслеживание изменений
 - `data/` — исходные CSV (orders, returns, users) и SQL для загрузки в Postgres
 
-## Загрузка данных в Postgres (опционально)
-В папке `data/` лежит файл `load_postgres.sql` с `CREATE TABLE` и `INSERT INTO` для CSV.
+## Модели
+Сейчас готов **stg слой** (staging). Он находится в `dbt_dwh/models/stg/` и включает:
+- `stg_orders.sql`
+- `stg_returns.sql`
+- `stg_managers.sql`
+
+Источники описаны в `dbt_dwh/models/sources/`.
+
+## Профили: dev и prod
+В `~/.dbt/profiles.yml` настроены targets `dev` и `prod` (разные `schema` в одной базе).
 Пример запуска:
 ```bash
-psql -d <db> -f data/load_postgres.sql
+dbt run --target dev
+dbt run --target prod
 ```
+Если `--target` не указан, используется значение `target` из профиля.
 
-## Примечания
-Если в проекте есть специфичные модели или окружения, добавьте сюда их описание и правила запуска.
+## Pre-commit хуки
+В проекте настроен pre-commit с SQLFluff для SQL и `check-yaml` для YAML в `dbt_dwh/models/`.
+Основные команды:
+```bash
+pre-commit install
+pre-commit run --all-files
+```
+Хуки запускаются автоматически при `git commit` и проверяют только staged файлы.
+
+## Загрузка данных в Postgres (опционально)
+В папке `data/` лежит файл `load_postgres.sql` с `CREATE TABLE` и `INSERT INTO` для CSV.
