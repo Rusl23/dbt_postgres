@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: 'Customer orders with product, shipping, and sales details'
+    config:
+      tags: ['stg']
+    columns:
+      - name: dwh_id
+        description: 'Row number'
+        tests:
+          - not_null
+      - name: order_id
+        description: 'Unique Order ID for each Customer.'
+      - name: order_date
+        description: 'Order Date of the product.'
+      - name: ship_date
+        description: 'Shipping Date of the Product.'
+      - name: ship_mode
+        description: 'Shipping Mode specified by the Customer.'
+      - name: order_priority
+        description: '.'
+      - name: product_container
+        description: '.'
+      - name: customer_name
+        description: 'Name of the Customer.'
+      - name: customer_segment
+        description: 'The segment where the Customer belongs.'
+      - name: zip_code
+        description: 'Postal Code of every Customer.'
+      - name: city
+        description: 'City of residence of of the Customer.'
+      - name: state
+        description: 'State of residence of the Customer.'
+      - name: region
+        description: 'Region where the Customer belong.'
+      - name: product_category
+        description: 'Category of the product ordered.'
+      - name: product_sub_category
+        description: 'Sub-Category of the product ordered.'
+      - name: product_name
+        description: 'Name of the Product.'
+      - name: unit_price
+        description: ''
+      - name: order_quantity
+        description: 'Quantity of the Product.'          
+      - name: sales
+        description: 'Sales of the Product.'
+      - name: profit
+        description: 'Profit/Loss incurred.'
+      - name: discount
+        description: 'Discount provided.'
+      - name: shipping_cost
+        description: ''
+      - name: product_base_margin
+        description: ''
+      - name: etl_timestamp
+        description: 'Date of transformation.'
+        tests:
+          - not_null
+

@@ -1,0 +1,4 @@
+logs/
+.dbt/Surfalitics.code-workspace
+.env
+.dbt

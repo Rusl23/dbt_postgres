@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: stg_managers
+    description: 'Links specific managers to geographical regions, allowing analysis of sales performance by manager'
+    config:
+      tags: ['stg']
+    columns:
+      - name: dwh_id
+        description: 'Row number'
+        tests:
+          - not_null
+      - name: region
+        description: 'Manager region'
+      - name: manager_name
+        description: 'Manager name'
+      - name: etl_timestamp
+        description: 'Date of transformation'
+        tests:
+          - not_null

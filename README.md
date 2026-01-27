@@ -18,6 +18,11 @@ dbt run
 dbt test
 ```
 
+Если профиль хранится в репозитории, используйте переменную окружения:
+```bash
+export DBT_PROFILES_DIR=./.dbt
+```
+
 ## Требования
 - dbt-core + dbt-snowflake (совместимые версии)
 - Доступ к Snowflake (account, user, role, warehouse, database, schema)
