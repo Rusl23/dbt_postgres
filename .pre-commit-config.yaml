@@ -14,3 +14,8 @@ repos:
         additional_dependencies:
           - sqlfluff-templater-dbt
           - dbt-postgres
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+        files: ^dbt_dwh/models/.*\.ya?ml$
