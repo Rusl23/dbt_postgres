@@ -43,7 +43,7 @@ models:
       - name: unit_price
         description: ''
       - name: order_quantity
-        description: 'Quantity of the Product.'          
+        description: 'Quantity of the Product.'
       - name: sales
         description: 'Sales of the Product.'
       - name: profit

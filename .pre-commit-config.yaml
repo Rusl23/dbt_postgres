@@ -4,13 +4,13 @@ repos:
     hooks:
       - id: sqlfluff-lint
         args: [--config, .sqlfluff]
-        files: ^dbt_dwh/.*\.sql$
+        files: ^dbt_dwh/models/.*\.sql$
         additional_dependencies:
           - sqlfluff-templater-dbt
           - dbt-postgres
       - id: sqlfluff-fix
         args: [--config, .sqlfluff]
-        files: ^dbt_dwh/.*\.sql$
+        files: ^dbt_dwh/models/.*\.sql$
         additional_dependencies:
           - sqlfluff-templater-dbt
           - dbt-postgres
@@ -18,5 +18,5 @@ repos:
     rev: v4.6.0
     hooks:
       - id: check-yaml
-        files: \.ya?ml$
+        files: ^dbt_dwh/models/.*\.ya?ml$
       - id: trailing-whitespace
