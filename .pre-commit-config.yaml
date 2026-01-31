@@ -18,4 +18,5 @@ repos:
     rev: v4.6.0
     hooks:
       - id: check-yaml
-        files: ^dbt_dwh/models/.*\.ya?ml$
+        files: \.ya?ml$
+      - id: trailing-whitespace
