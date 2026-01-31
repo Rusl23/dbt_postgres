@@ -3,3 +3,5 @@ logs/
 .env
 .dbt
 .venv/
+dbt_dwh/target/
+dbt_dwh/dbt_packages/
