@@ -1,16 +1,16 @@
 # dbt_postgres
-Проект посвящен использованию dbt и Snowflake для построения аналитического слоя: модели данных, тестирование, документация и повторяемые пайплайны трансформаций.
+This project focuses on using dbt and Postgres to build an analytics layer: data models, testing, documentation, and repeatable transformation pipelines.
 
-## Что внутри
-- dbt-проект для трансформаций и витрин
-- Snowflake как основная аналитическая БД
-- тесты качества данных (dbt tests)
-- генерация документации (dbt docs)
+## What's inside
+- dbt project for transformations and marts
+- Postgres as the primary analytics database
+- data quality tests (dbt tests)
+- documentation generation (dbt docs)
 
-## Быстрый старт
-1) Установите зависимости проекта (если используется `requirements.txt` или `dbt` в virtualenv).
-2) Настройте профиль dbt для Snowflake в `~/.dbt/profiles.yml`.
-3) Запустите:
+## Quick start
+1) Install project dependencies (if using `requirements.txt` or dbt in a virtualenv).
+2) Configure a dbt profile for Postgres in `~/.dbt/profiles.yml`.
+3) Run:
 ```bash
 dbt debug
 dbt deps
@@ -18,16 +18,16 @@ dbt run
 dbt test
 ```
 
-Если профиль хранится в репозитории, используйте переменную окружения:
+If the profile is stored in the repo, use the environment variable:
 ```bash
 export DBT_PROFILES_DIR=./.dbt
 ```
 
-## Требования
-- dbt-core + dbt-snowflake (совместимые версии)
-- Доступ к Snowflake (account, user, role, warehouse, database, schema)
+## Requirements
+- dbt-core + dbt-postgres (compatible versions)
+- Access to Postgres (host, port, user, password, database, schema)
 
-## Полезные команды
+## Useful commands
 ```bash
 dbt run --select <model>
 dbt test --select <model>
@@ -35,40 +35,40 @@ dbt docs generate
 dbt docs serve
 ```
 
-## Структура проекта
-Обычно включает папки:
-- `models/` — SQL-модели и описания
-- `macros/` — переиспользуемые макросы
-- `tests/` — пользовательские тесты
-- `seeds/` — статические данные
-- `snapshots/` — отслеживание изменений
-- `data/` — исходные CSV (orders, returns, users) и SQL для загрузки в Postgres
+## Project structure
+Typically includes:
+- `models/` — SQL models and descriptions
+- `macros/` — reusable macros
+- `tests/` — custom tests
+- `seeds/` — static data
+- `snapshots/` — change tracking
+- `data/` — source CSVs (orders, returns, users) and SQL for loading into Postgres
 
-## Модели
-Сейчас готов **stg слой** (staging). Он находится в `dbt_dwh/models/stg/` и включает:
+## Models
+The **stg layer** (staging) is ready. It lives in `dbt_dwh/models/stg/` and includes:
 - `stg_orders.sql`
 - `stg_returns.sql`
 - `stg_managers.sql`
 
-Источники описаны в `dbt_dwh/models/sources/`.
+Sources are defined in `dbt_dwh/models/sources/`.
 
-## Профили: dev и prod
-В `~/.dbt/profiles.yml` настроены targets `dev` и `prod` (разные `schema` в одной базе).
-Пример запуска:
+## Profiles: dev and prod
+In `~/.dbt/profiles.yml`, targets `dev` and `prod` are configured (different schemas in the same database).
+Example:
 ```bash
 dbt run --target dev
 dbt run --target prod
 ```
-Если `--target` не указан, используется значение `target` из профиля.
+If `--target` is not specified, the profile's `target` value is used.
 
-## Pre-commit хуки
-В проекте настроен pre-commit с SQLFluff для SQL и `check-yaml` для YAML в `dbt_dwh/models/`.
-Основные команды:
+## Pre-commit hooks
+Pre-commit is configured with SQLFluff for SQL and `check-yaml` for YAML in `dbt_dwh/models/`.
+Main commands:
 ```bash
 pre-commit install
 pre-commit run --all-files
 ```
-Хуки запускаются автоматически при `git commit` и проверяют только staged файлы.
+Hooks run automatically on `git commit` and only check staged files.
 
-## Загрузка данных в Postgres (опционально)
-В папке `data/` лежит файл `load_postgres.sql` с `CREATE TABLE` и `INSERT INTO` для CSV.
+## Load data into Postgres (optional)
+In `data/`, there is a `load_postgres.sql` file with `CREATE TABLE` and `INSERT INTO` statements for CSVs.
