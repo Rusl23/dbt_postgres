@@ -1,6 +1,8 @@
 {{ config(
-  materialized='table',
-  alias='stg_orders'
+  materialized='incremental',
+  incremental_strategy='merge',
+  unique_key=['dwh_id'],
+  alias='stg_orders_merge'
 ) }}
 
 SELECT
@@ -29,3 +31,6 @@ SELECT
     product_base_margin,
     {{ dbt.current_timestamp() }} AS etl_timestamp
 FROM {{source ('raw','orders')}}
+{% if is_incremental() %}
+    WHERE order_date >= (SELECT max(order_date) FROM {{ this }}) - interval '7 day'
+{% endif %}
