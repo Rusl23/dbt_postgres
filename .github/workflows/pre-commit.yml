@@ -6,6 +6,27 @@ on:
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: dbt
+          POSTGRES_PASSWORD: dbt
+          POSTGRES_DB: dbt
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U dbt"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DBT_HOST: localhost
+      DBT_USER: dbt
+      DBT_PASSWORD: dbt
+      DBT_DBNAME: dbt
+      DBT_SCHEMA: public
+      DBT_PORT: "5432"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -17,8 +38,28 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
-        working-directory: dbt_postgres
+
+      - name: Prepare dbt profile
+        run: |
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml <<'YAML'
+          dbt_dwh:
+            target: dev
+            outputs:
+              dev:
+                type: postgres
+                host: "{{ env_var('DBT_HOST', 'localhost') }}"
+                user: "{{ env_var('DBT_USER', 'dbt') }}"
+                password: "{{ env_var('DBT_PASSWORD', 'dbt') }}"
+                port: "{{ env_var('DBT_PORT', '5432') | as_number }}"
+                dbname: "{{ env_var('DBT_DBNAME', 'dbt') }}"
+                schema: "{{ env_var('DBT_SCHEMA', 'public') }}"
+                threads: 1
+          YAML
+
+      - name: Install dbt packages
+        run: dbt deps
+        working-directory: dbt_dwh
 
       - name: Run pre-commit
         run: pre-commit run --all-files
-        working-directory: dbt_postgres
