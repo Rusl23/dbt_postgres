@@ -21,7 +21,20 @@ jobs:
       - name: Prepare dbt profile
         run: |
           mkdir -p ~/.dbt
-          cp .dbt/profiles.yml ~/.dbt/profiles.yml
+          cat > ~/.dbt/profiles.yml <<'YAML'
+          dbt_dwh:
+            target: dev
+            outputs:
+              dev:
+                type: postgres
+                host: "{{ env_var('DBT_HOST', 'localhost') }}"
+                user: "{{ env_var('DBT_USER', 'dbt') }}"
+                password: "{{ env_var('DBT_PASSWORD', 'dbt') }}"
+                port: "{{ env_var('DBT_PORT', '5432') | as_number }}"
+                dbname: "{{ env_var('DBT_DBNAME', 'dbt') }}"
+                schema: "{{ env_var('DBT_SCHEMA', 'public') }}"
+                threads: 1
+          YAML
 
       - name: Run pre-commit
         run: pre-commit run --all-files
