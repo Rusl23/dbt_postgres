@@ -36,5 +36,9 @@ jobs:
                 threads: 1
           YAML
 
+      - name: Install dbt packages
+        run: dbt deps
+        working-directory: dbt_dwh
+
       - name: Run pre-commit
         run: pre-commit run --all-files
