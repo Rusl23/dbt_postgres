@@ -2,6 +2,7 @@ logs/
 .dbt/Surfalitics.code-workspace
 .env
 .dbt
+!.dbt/profiles.yml
 .venv/
 dbt_dwh/target/
 dbt_dwh/dbt_packages/

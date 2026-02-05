@@ -18,5 +18,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Prepare dbt profile
+        run: |
+          mkdir -p ~/.dbt
+          cp .dbt/profiles.yml ~/.dbt/profiles.yml
+
       - name: Run pre-commit
         run: pre-commit run --all-files
