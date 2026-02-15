@@ -2,16 +2,24 @@ version: 2
 
 models:
   - name: stg_orders
-    description: 'Customer orders with product, shipping, and sales details'
-    config:
-      tags: ['stg']
+    description: "{{ doc('stg_orders_desc') }}"
+    data_tests:
+      - row_count_match:
+          arguments:
+            compare_model: "{{ source('raw', 'orders') }}"
+      - column_sum_match:
+          arguments:
+            column_name: sales
+            compare_model: "{{ source('raw', 'orders') }}"
+            compare_column_name: sales
+            tolerance: 0
     columns:
       - name: dwh_id
-        description: 'Row number'
+        description: "{{ doc('col_dwh_id_desc') }}"
         tests:
           - not_null
       - name: order_id
-        description: 'Unique Order ID for each Customer.'
+        description: "{{ doc('col_order_id_desc') }}"
       - name: order_date
         description: 'Order Date of the product.'
       - name: ship_date
@@ -55,7 +63,6 @@ models:
       - name: product_base_margin
         description: ''
       - name: etl_timestamp
-        description: 'Date of transformation.'
+        description: "{{ doc('col_etl_timestamp_desc') }}"
         tests:
           - not_null
-

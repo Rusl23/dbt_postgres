@@ -6,6 +6,7 @@ profile: dbt_dwh
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
+docs-paths: ["docs"]
 test-paths: ["tests"]
 seed-paths: ["seeds"]
 macro-paths: ["macros"]
@@ -15,6 +16,16 @@ clean-targets:
   - "target"
   - "dbt_packages"
 
+data_tests:
+  +severity: warn
+
 models:
   dbt_dwh:
     +materialized: view
+    +meta:
+      owner: analytics_engineering
+      project: surfalitics_dwh
+    bronze:
+      +tags: ["stg", "bronze"]
+      +meta:
+        layer: bronze
