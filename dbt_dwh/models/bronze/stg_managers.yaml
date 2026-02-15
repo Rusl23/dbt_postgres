@@ -2,12 +2,14 @@ version: 2
 
 models:
   - name: stg_managers
-    description: 'Links specific managers to geographical regions, allowing analysis of sales performance by manager'
-    config:
-      tags: ['stg']
+    description: "{{ doc('stg_managers_desc') }}"
+    data_tests:
+      - row_count_match:
+          arguments:
+            compare_model: "{{ source('raw', 'users') }}"
     columns:
       - name: dwh_id
-        description: 'Row number'
+        description: "{{ doc('col_dwh_id_desc') }}"
         tests:
           - not_null
       - name: region
@@ -15,6 +17,6 @@ models:
       - name: manager_name
         description: 'Manager name'
       - name: etl_timestamp
-        description: 'Date of transformation'
+        description: "{{ doc('col_etl_timestamp_desc') }}"
         tests:
           - not_null

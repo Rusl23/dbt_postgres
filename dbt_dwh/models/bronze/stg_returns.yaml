@@ -2,19 +2,21 @@ version: 2
 
 models:
   - name: stg_returns
-    description: 'Returned orders and status of this return'
-    config:
-      tags: ['stg']
+    description: "{{ doc('stg_returns_desc') }}"
+    data_tests:
+      - row_count_match:
+          arguments:
+            compare_model: "{{ source('raw', 'returns') }}"
     columns:
       - name: dwh_id
-        description: 'Row number'
+        description: "{{ doc('col_dwh_id_desc') }}"
         tests:
           - not_null
       - name: order_id
-        description: 'Unique Order ID for each Customer'
+        description: "{{ doc('col_order_id_desc') }}"
       - name: status
         description: 'Return status'
       - name: etl_timestamp
-        description: 'Date of transformation'
+        description: "{{ doc('col_etl_timestamp_desc') }}"
         tests:
           - not_null

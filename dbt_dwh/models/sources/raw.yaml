@@ -33,6 +33,11 @@ sources:
 
       - name: orders
         description: 'Customer orders with product, shipping, and sales details'
+        freshness:
+          warn_after:
+            count: 1
+            period: day
+        loaded_at_field: etl_timestamp
         columns:
           - name: row_id
             description: 'Unique ID for each row.'
